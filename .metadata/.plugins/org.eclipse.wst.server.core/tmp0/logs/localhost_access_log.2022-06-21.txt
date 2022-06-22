@@ -103,3 +103,5 @@
 0:0:0:0:0:0:0:1 - - [21/Jun/2022:18:26:30 +0900] "GET /step01_basic/views/choice.html HTTP/1.1" 304 -
 0:0:0:0:0:0:0:1 - - [21/Jun/2022:18:26:32 +0900] "POST /step01_basic/print HTTP/1.1" 200 -
 0:0:0:0:0:0:0:1 - - [21/Jun/2022:18:26:42 +0900] "POST /step01_basic/print HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [21/Jun/2022:19:51:45 +0900] "POST /step01_basic/views/choice.html HTTP/1.1" 200 640
+0:0:0:0:0:0:0:1 - - [21/Jun/2022:19:51:51 +0900] "POST /step01_basic/print HTTP/1.1" 200 -
