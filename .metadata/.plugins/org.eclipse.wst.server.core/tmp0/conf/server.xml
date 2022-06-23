@@ -152,7 +152,35 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step01_basic" path="/step01_basic" reloadable="true" source="org.eclipse.jst.jee.server:step01_basic"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step02_pageMove" path="/step02_pageMove" reloadable="true" source="org.eclipse.jst.jee.server:step02_pageMove"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step03_session" path="/step03_session" reloadable="true" source="org.eclipse.jst.jee.server:step03_session"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step04_JSP" path="/step04_JSP" reloadable="true" source="org.eclipse.jst.jee.server:step04_JSP"/></Host>
+      <Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step01_basic" path="/step01_basic" reloadable="true" source="org.eclipse.jst.jee.server:step01_basic"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step02_pageMove" path="/step02_pageMove" reloadable="true" source="org.eclipse.jst.jee.server:step02_pageMove"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step03_session" path="/step03_session" reloadable="true" source="org.eclipse.jst.jee.server:step03_session"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step04_JSP" path="/step04_JSP" reloadable="true" source="org.eclipse.jst.jee.server:step04_JSP"/><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step05_ConnectionPool" path="/step05_ConnectionPool" reloadable="true" source="org.eclipse.jst.jee.server:step05_ConnectionPool">
+
+    <!-- Default set of monitored resources. If one of these changes, the    -->
+    <!-- web application will be reloaded.                                   -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+   
+	 <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="30" maxIdle="3" maxWait="3000" name="jdbc/mysql" password="tiger" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/scott" username="scott"/>
+</Context><Context docBase="/Users/qqqwwwddd/Desktop/qqqwwwddd/Fullstack/ServletJSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/step06_miniProject_t" path="/step09_miniProject" reloadable="true" source="org.eclipse.jst.jee.server:step06_miniProject_t">
+
+    <!-- Default set of monitored resources. If one of these changes, the    -->
+    <!-- web application will be reloaded.                                   -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+	<Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="30" maxIdle="3" maxWait="3000" name="jdbc/mysql" password="tiger" testOnBorrow="true" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/scott" username="scott">
+	</Resource>
+</Context></Host>
     </Engine>
   </Service>
 </Server>
