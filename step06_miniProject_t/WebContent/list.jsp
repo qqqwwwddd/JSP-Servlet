@@ -7,20 +7,20 @@
 
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
 	<tr>
-        <td bgcolor="#336699">
+        <td bgcolor="salmon">
             <p align="center">
             <font color="white"><b><span style="font-size:9pt;">번 호</span></b></font></p>
         </td>
-        <td bgcolor="#336699">
+        <td bgcolor="salmon">
             <p align="center"><font color="white"><b><span style="font-size:9pt;">제 목</span></b></font></p>
         </td>
-        <td bgcolor="#336699">
+        <td bgcolor="salmon">
             <p align="center"><font color="white"><b><span style="font-size:9pt;">작 성 자</span></b></font></p>
         </td>
-        <td bgcolor="#336699">
+        <td bgcolor="salmon">
             <p align="center"><font color="white"><b><span style="font-size:9pt;">작 성 일</span></b></font></p>
         </td>
-        <td bgcolor="#336699">
+        <td bgcolor="salmon">
             <p align="center"><font color="white"><b><span style="font-size:9pt;">조 회 수</span></b></font></p>
         </td>
     </tr>

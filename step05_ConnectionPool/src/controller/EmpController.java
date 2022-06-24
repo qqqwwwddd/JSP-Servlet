@@ -45,11 +45,11 @@ public class EmpController extends HttpServlet {
 
 			} else {
 				System.out.println("이름이 없음");
-				request.setAttribute("ename", "사원의 이름이 없습니다");
+				request.setAttribute("ename", null);
 
 			}
 			request.setAttribute("command", "emp");
-			request.getRequestDispatcher("view.jsp").forward(request, response);
+			request.getRequestDispatcher("emp.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
