@@ -2,9 +2,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,88 +12,101 @@ import javax.servlet.http.HttpServletResponse;
 import guestbook.model.GuestBookBean;
 import guestbook.model.GuestBookDAO;
 
- 
- public class GuestBookServlet extends HttpServlet {
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		
-		// command pattern !! : 모든 입력 처리에 대한 부분을 하나의 servlet이 담당 ! 
+public class GuestBookServlet extends HttpServlet {
+
+	String env;
+
+	// config 값 추출 방법 1 //
+//	public void init(ServletConfig config) {
+//		System.out.println(config.getInitParameter("id"));
+//		env = config.getInitParameter("charset);
+//	
+//	}
+
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// config 값 추출 방법 2 //
+		String env = this.getInitParameter("charset");
+		request.setCharacterEncoding(env);
+
+		// Servlet Context
+		ServletContext sc = this.getServletContext();
+		System.out.println(sc.getInitParameter("contextConfig"));
+
+		// command pattern !! : 모든 입력 처리에 대한 부분을 하나의 servlet이 담당 !
 		// (단 , command로 넘겨져온 값에 따라 구현 메소드 차이가 있음 )
-		
-		// input type="hidden" : 출력 필요는 없으나 반드시 서버로 전달 되어야 하는 
-		// 데이터의 경우 hidden 속성을 이용하여 전달 하기도 함 
-		String command=request.getParameter("command");
-		
-		if(command == null){
+
+		// input type="hidden" : 출력 필요는 없으나 반드시 서버로 전달 되어야 하는
+		// 데이터의 경우 hidden 속성을 이용하여 전달 하기도 함
+		String command = request.getParameter("command");
+
+		if (command == null) {
 			command = "list";
-		}		
-		
-		if(command.equals("list")){
+		}
+
+		if (command.equals("list")) {
 			list(request, response);
-		}else if(command.equals("write")){
+		} else if (command.equals("write")) {
 			write(request, response);
-		}else if(command.equals("read")){
+		} else if (command.equals("read")) {
 			read(request, response);
-		}else if(command.equals("updateForm")){
+		} else if (command.equals("updateForm")) {
 			updateForm(request, response);
-		}else if(command.equals("update")){
+		} else if (command.equals("update")) {
 			update(request, response);
-		}else if(command.equals("delete")){
+		} else if (command.equals("delete")) {
 			delete(request, response);
 		}
 	}
-	
-	private void delete(HttpServletRequest request, HttpServletResponse response)
-	throws IOException, ServletException{
-		String strNum=request.getParameter("num");
+
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String strNum = request.getParameter("num");
 		String password = request.getParameter("password");
-		
-		if(strNum == null || strNum.trim().length() == 0 ||
-			password == null || password.trim().length() == 0){
+
+		if (strNum == null || strNum.trim().length() == 0 || password == null || password.trim().length() == 0) {
 			response.sendRedirect("guestbook.do");
-			return;				
+			return;
 		}
 		boolean result = false;
 		try {
-			result = GuestBookDAO.deleteContent(Integer.parseInt(strNum),password);
+			result = GuestBookDAO.deleteContent(Integer.parseInt(strNum), password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "해당 게시글 삭제 실패했습니다. 재 시도 하셔요");
 		}
-		if(result){
-			response.sendRedirect("guestbook.do");			
+		if (result) {
+			response.sendRedirect("guestbook.do");
 			return;
-		}else{
+		} else {
 			request.setAttribute("error", "삭제하려는 게시글이 존재하지 않습니다");
 		}
 		request.getRequestDispatcher("error.jsp").forward(request, response);
 	}
-	
-	private void update(HttpServletRequest request, HttpServletResponse response) 
-	throws ServletException, IOException{
+
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String strNum = request.getParameter("num");
-		String title=request.getParameter("title");
-		String author=request.getParameter("author");				
-		String email=request.getParameter("email");				
-		String content=request.getParameter("content");
-		String password=request.getParameter("password");
-		if(strNum == null || strNum.trim().length() == 0 ||
-			title == null || title.trim().length() == 0 ||
-			author == null || author.trim().length() == 0 ||
-			email == null || email.trim().length() == 0 ||
-			content == null || content.trim().length() == 0 ||
-			password == null || password.trim().length() == 0 ){
-				response.sendRedirect("guestbook.do");
-				return;
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String email = request.getParameter("email");
+		String content = request.getParameter("content");
+		String password = request.getParameter("password");
+		if (strNum == null || strNum.trim().length() == 0 || title == null || title.trim().length() == 0
+				|| author == null || author.trim().length() == 0 || email == null || email.trim().length() == 0
+				|| content == null || content.trim().length() == 0 || password == null
+				|| password.trim().length() == 0) {
+			response.sendRedirect("guestbook.do");
+			return;
 		}
 		boolean result = false;
 		try {
-			result = GuestBookDAO.updateContent(new GuestBookBean(Integer.parseInt(strNum),title,author,email,content,password));
+			result = GuestBookDAO.updateContent(
+					new GuestBookBean(Integer.parseInt(strNum), title, author, email, content, password));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "게시글 수정 실패");
 		}
-		if(result){
+		if (result) {
 			response.sendRedirect("guestbook.do");
 			return;
 		}
@@ -102,12 +114,12 @@ import guestbook.model.GuestBookDAO;
 		request.getRequestDispatcher("error.jsp").forward(request, response);
 	}
 
-	private void updateForm(HttpServletRequest request, HttpServletResponse response) 
-	throws IOException, ServletException{
+	private void updateForm(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		String strNum = request.getParameter("num");
-		if(strNum == null || strNum.trim().length() == 0){
+		if (strNum == null || strNum.trim().length() == 0) {
 			response.sendRedirect("guestbook.do");
-			return;				
+			return;
 		}
 		String url = "error.jsp";
 		GuestBookBean gContent = null;
@@ -117,9 +129,9 @@ import guestbook.model.GuestBookDAO;
 			e.printStackTrace();
 			request.setAttribute("error", "수정하고자 하는 게시글 검색 실패했습니다");
 		}
-		if(gContent == null){
+		if (gContent == null) {
 			request.setAttribute("error", "수정하고자 하는 게시글이 존재하지 않습니다");
-		}else{
+		} else {
 			request.setAttribute("resultContent", gContent);
 			url = "update.jsp";
 		}
@@ -127,8 +139,8 @@ import guestbook.model.GuestBookDAO;
 	}
 
 	private void read(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String strNum=request.getParameter("num");
-		if(strNum==null || strNum.length() == 0){
+		String strNum = request.getParameter("num");
+		if (strNum == null || strNum.length() == 0) {
 			response.sendRedirect("guestbook.do");
 			return;
 		}
@@ -140,47 +152,43 @@ import guestbook.model.GuestBookDAO;
 			e.printStackTrace();
 			request.setAttribute("error", "게시글 읽기 실패");
 		}
-		if(gContent == null){
+		if (gContent == null) {
 			request.setAttribute("error", "해당 게시글이 존재하지 않습니다");
-		}else{
+		} else {
 			request.setAttribute("resultContent", gContent);
 			url = "read.jsp";
 		}
 		request.getRequestDispatcher(url).forward(request, response);
 	}
 
-	private void write(HttpServletRequest request, HttpServletResponse response) 
-				throws IOException, ServletException{
-		String title=request.getParameter("title");
-		String author=request.getParameter("author");				
-		String email=request.getParameter("email");				
-		String content=request.getParameter("content");				
-		String password=request.getParameter("password");
-		
-		if(title == null || title.trim().length() == 0 ||
-			author == null || author.trim().length() == 0 ||
-			email == null || email.trim().length() == 0 ||
-			content == null || content.trim().length() == 0 ||
-			password == null || password.trim().length() == 0 ){
+	private void write(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String email = request.getParameter("email");
+		String content = request.getParameter("content");
+		String password = request.getParameter("password");
+
+		if (title == null || title.trim().length() == 0 || author == null || author.trim().length() == 0
+				|| email == null || email.trim().length() == 0 || content == null || content.trim().length() == 0
+				|| password == null || password.trim().length() == 0) {
 			response.sendRedirect("write.html");
 			return;
 		}
 		boolean result = false;
 		try {
-			result = GuestBookDAO.writeContent(new GuestBookBean(title,author,email,content,password));
+			result = GuestBookDAO.writeContent(new GuestBookBean(title, author, email, content, password));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "게시글 저장 시도 실패 재 시도 하세요");
 		}
-		if(result){
-			response.sendRedirect("guestbook.do"); 
-		}else{
+		if (result) {
+			response.sendRedirect("guestbook.do");
+		} else {
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 
-	private void list(HttpServletRequest request, HttpServletResponse response) 
-							throws ServletException, IOException {
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "error.jsp";
 		try {
 			request.setAttribute("list", GuestBookDAO.getAllContents());
@@ -188,17 +196,7 @@ import guestbook.model.GuestBookDAO;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "모두 보기 실패 재 실행 해 주세요");
-		}	
+		}
 		request.getRequestDispatcher(url).forward(request, response);
 	}
 }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 

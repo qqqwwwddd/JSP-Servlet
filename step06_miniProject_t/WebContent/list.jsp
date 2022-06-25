@@ -26,6 +26,7 @@
     </tr>
     
     
+    
  	<c:if test="${empty list || fn:length(list) == 0}">
  		<% 
  		if(request.getRequestURI().contains("list.jsp")){
